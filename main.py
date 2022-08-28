@@ -4,7 +4,9 @@ pygame.init()
 
 size = 450
 cell_size = size // 3
+
 screen = pygame.display.set_mode((size, size))
+
 clock = pygame.time.Clock()
 
 board_img = pygame.image.load('board.png')
@@ -23,9 +25,16 @@ board = [
     [0, 0, 0],
     [0, 0, 0]
 ]
-player1 = True
-count = 0
+# 0 is empty
+# 1 is x
+# 2 is o
 
+player1 = True
+# if player1 is True then it is player 1's turn
+# if player1 is False then it is player 2's turn
+
+count = 0
+# Keep a track of how many cells have been filled
 
 def reset():
     global board
@@ -40,7 +49,11 @@ def reset():
 
 
 def draw():
-    pygame.draw.rect(screen, (220, 220, 220), pygame.Rect(0, 0, size, size))
+    pygame.draw.rect(
+        screen, 
+        (220, 220, 220), 
+        pygame.Rect(0, 0, size, size)
+    )
 
     screen.blit(board_img, (0, 0))
 
@@ -48,7 +61,9 @@ def draw():
         for j in range(3):
             if board[i][j] == 1:
                 screen.blit(
-                    x_img, ((i + 0.1) * cell_size, (j + 0.1) * cell_size))
+                    x_img, 
+                    ((i + 0.1) * cell_size, (j + 0.1) * cell_size)
+                )
             elif board[i][j] == 2:
                 screen.blit(
                     o_img, ((i + 0.1) * cell_size, (j + 0.1) * cell_size))
@@ -57,7 +72,7 @@ def draw():
 
 
 while True:
-    clock.tick(100)
+    clock.tick(100) # Our game will run at 100 fps
     draw()
 
     for event in pygame.event.get():
@@ -75,6 +90,7 @@ while True:
                 player1 = not player1
 
                 board_set = [set(), set(), set()]
+
                 for i in range(3):
                     for j in range(3):
                         board_set[i].add(board[j][i])
@@ -83,7 +99,7 @@ while True:
                 board_set.append(set([board[0][0], board[1][1], board[2][2]]))
                 board_set.append(set([board[0][2], board[1][1], board[2][0]]))
 
-                # print(board_set)
+                print(board_set)
 
                 if {1} in board_set:
                     print("Player 1 won")
